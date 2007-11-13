@@ -1,0 +1,167 @@
+%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+
+Name:		dblatex
+Version:	0.2.7
+Release:	16%{?dist}
+Summary:	DocBook to LaTeX/ConTeXt Publishing
+BuildArch:	noarch
+Group:		Applications/Publishing
+License:	GPLv2+
+URL:		http://dblatex.sourceforge.net/
+Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+#Source1:        http://docbook.sourceforge.net/release/xsl/current/COPYING
+Source1:        COPYING-docbook-xsl
+Patch0:		dblatex-0.2.7-external-which.patch
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildRequires:	python-devel libxslt tetex ImageMagick tetex-latex python-which
+Requires:	tetex libxslt docbook-dtds python passivetex tetex-latex ImageMagick transfig tetex-fonts
+
+%if 0%{?fedora} < 8
+Conflicts: tetex-tex4ht
+%endif
+
+%description
+dblatex is a program that transforms your SGML/XMLDocBook
+documents to DVI, PostScript or PDF by translating them
+into pure LaTeX as a first process.  MathML 2.0 markups
+are supported, too. It started as a clone of DB2LaTeX.
+
+Authors:
+--------
+   Benoît Guillon <marsgui at users dot sourceforge dot net>
+   Andreas Hoenen <andreas dot hoenen at arcor dot de>
+
+
+%prep
+%setup -q
+%patch0 -p1 -b .external-which
+rm -rf lib/contrib
+
+%build
+%{__python } setup.py build
+
+
+%install
+rm -rf $RPM_BUILD_ROOT
+#%{__python} setup.py install --skip-build --root $RPM_BUILD_ROOT
+%{__python} setup.py install --root $RPM_BUILD_ROOT
+# these are already in tetex-latex:
+for file in bibtopic.sty enumitem.sty ragged2e.sty passivetex/; do
+  rm -rf $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/misc/$file
+done
+
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/texmf/tex/latex/dblatex
+for file in ` find $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/ -name '*.sty' ` ; do 
+  mv $file $RPM_BUILD_ROOT%{_datadir}/texmf/tex/latex/dblatex/`basename $file`;
+done
+
+rmdir $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/{misc,contrib/example,style}
+
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/sgml/docbook/xsl-stylesheets/
+mv $RPM_BUILD_ROOT%{_datadir}/dblatex/xsl/ $RPM_BUILD_ROOT%{_datadir}/sgml/docbook/xsl-stylesheets/dblatex
+ln -s ../sgml/docbook/xsl-stylesheets/dblatex $RPM_BUILD_ROOT%{_datadir}/dblatex/xsl
+
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/dblatex
+# shipped in %%docs
+rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/
+
+sed -e 's/\r//' xsl/mathml2/README > README-xsltml
+touch -r xsl/mathml2/README README-xsltml
+cp -p %{SOURCE1} COPYING-docbook-xsl
+
+ 
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+
+%files
+%defattr(-,root,root,-)
+%{_mandir}/man1/dblatex.1*
+%doc COPYRIGHT docs/manual.pdf COPYING-docbook-xsl README-xsltml
+%{python_sitelib}/dbtexmf/
+%{_bindir}/dblatex
+%{_datadir}/dblatex/
+%{_datadir}/texmf/tex/latex/dblatex/
+%{_datadir}/sgml/docbook/xsl-stylesheets/dblatex/
+%dir %{_sysconfdir}/dblatex
+
+%post -p /usr/bin/texhash
+
+%postun -p /usr/bin/texhash
+
+%changelog
+* Mon Nov 12 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-16
+- convert spec to utf8
+- change to gplv2+
+
+* Mon Nov 12 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-15
+- Add copyright info
+
+* Mon Nov  5 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-14
+- Req tetex-fonts for texhash
+- Fix post, postun
+
+* Sun Nov  4 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-13
+- Add texhash
+
+* Sun Nov  4 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-12
+- Fix xsl link
+
+* Sat Nov  3 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-12
+- Various fixes from pertusus@free.fr:
+- rm iconv stuff
+- simplify docs installation
+
+* Fri Nov  2 2007  <ndbecker2@gmail.com> - 0.2.7-11
+- Various minor fixes
+
+* Thu Nov  1 2007  <ndbecker2@gmail.com> - 0.2.7-10
+- Add some reqs and brs
+- rmdir /usr/share/dblatex/latex/{misc,contrib/example,style}
+
+* Sat Oct 27 2007  <ndbecker2@gmail.com> - 0.2.7-9
+- link /usr/share/dblatex/xsl -> /usr/share/sgml/docbook/xsl-stylesheets/dblatex
+- rmdir /usr/share/dblatex/latex/{misc,specs,style}
+- own /etc/dblatex
+- change $(...) -> `...`
+- Preserve timestamps on iconv
+
+* Mon Oct 15 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-9
+- mv all .sty files to datadir/texmf/tex/latex/dblatex
+- Add Conflicts tetex-tex4ht
+- mv all xsl stuff to datadir/sgml/docbook/xsl-stylesheets/dblatex/
+
+* Mon Oct 15 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-8
+- rm redundant latex files
+
+* Tue Sep 25 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-8
+- Fixed encodings in docs directory
+- Install docs at correct location
+
+* Fri Sep 21 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-7
+- Revert back to GPLv2
+- untabify
+
+* Fri Sep 21 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-6
+- Fix source URL
+- Install all docs
+- Tabify
+
+* Thu Sep 20 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-5
+- Add BR tetex-latex
+
+* Thu Sep 20 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-4
+- Add  BR tetex, ImageMagick
+
+* Thu Sep 20 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-3
+- Add BR libxslt 
+
+* Wed Sep 19 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-2
+- Add BR python-devel
+
+* Fri Sep  7 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-1
+- Initial
+
+
+
