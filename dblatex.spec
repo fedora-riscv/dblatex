@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		dblatex
-Version:	0.2.7
-Release:	16%{?dist}
+Version:	0.2.8
+Release:	1%{?dist}
 Summary:	DocBook to LaTeX/ConTeXt Publishing
 BuildArch:	noarch
 Group:		Applications/Publishing
@@ -91,6 +91,9 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /usr/bin/texhash
 
 %changelog
+* Sun Nov 25 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.8-1
+- Update to 0.2.8
+
 * Mon Nov 12 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-16
 - convert spec to utf8
 - change to gplv2+
