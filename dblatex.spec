@@ -2,7 +2,7 @@
 
 Name:		dblatex
 Version:	0.2.8
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 Summary:	DocBook to LaTeX/ConTeXt Publishing
 BuildArch:	noarch
 Group:		Applications/Publishing
@@ -87,7 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /usr/bin/texhash
 
 %changelog
-* Sun Dec 16 2007 Patrice Dumas <pertusus@free.fr> - 0.2.8-2
+* Sun Dec 16 2007 Patrice Dumas <pertusus@free.fr> - 0.2.8-2.1
 - don't install in docbook directory, it is a link to a versioned 
   directory and may break upon docbook update (#425251,#389231)
 
