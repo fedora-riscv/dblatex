@@ -2,7 +2,7 @@
 
 Name:		dblatex
 Version:	0.2.8
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	DocBook to LaTeX/ConTeXt Publishing
 BuildArch:	noarch
 Group:		Applications/Publishing
@@ -58,10 +58,6 @@ done
 
 rmdir $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/{misc,contrib/example,style}
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/sgml/docbook/xsl-stylesheets/
-mv $RPM_BUILD_ROOT%{_datadir}/dblatex/xsl/ $RPM_BUILD_ROOT%{_datadir}/sgml/docbook/xsl-stylesheets/dblatex
-ln -s ../sgml/docbook/xsl-stylesheets/dblatex $RPM_BUILD_ROOT%{_datadir}/dblatex/xsl
-
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/dblatex
 # shipped in %%docs
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/
@@ -83,7 +79,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/dblatex
 %{_datadir}/dblatex/
 %{_datadir}/texmf/tex/latex/dblatex/
-%{_datadir}/sgml/docbook/xsl-stylesheets/dblatex/
 %dir %{_sysconfdir}/dblatex
 
 %post -p /usr/bin/texhash
@@ -91,6 +86,10 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /usr/bin/texhash
 
 %changelog
+* Sun Dec 16 2007 Patrice Dumas <pertusus@free.fr> - 0.2.8-2
+- don't install in docbook directory, it is a link to a versioned 
+  directory and may break upon docbook update (#425251,#389231)
+
 * Sun Nov 25 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.8-1
 - Update to 0.2.8
 
