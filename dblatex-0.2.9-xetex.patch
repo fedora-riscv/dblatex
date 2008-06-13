@@ -1,0 +1,100 @@
+Index: setup.py
+===================================================================
+RCS file: /usr/local/cvsroot/docbook/db2tex/dblatex/setup.py,v
+retrieving revision 1.13
+diff -u -r1.13 setup.py
+--- setup.py	6 Nov 2007 22:28:57 -0000	1.13
++++ setup.py	4 Jun 2008 22:35:50 -0000
+@@ -259,7 +259,7 @@
+         used_stys.sort()
+ 
+         # Dirty...
+-        for f in ("truncate", "elfonts", "CJKutf8", "pinyin"):
++        for f in ("truncate", "elfonts", "CJKutf8", "pinyin", "ifxetex"):
+             try:
+                 used_stys.remove(f)
+             except:
+Index: latex/style/dbk_fonts.sty
+===================================================================
+RCS file: /usr/local/cvsroot/docbook/db2tex/dblatex/latex/style/dbk_fonts.sty,v
+retrieving revision 1.3
+diff -u -r1.3 dbk_fonts.sty
+--- latex/style/dbk_fonts.sty	18 Apr 2008 23:11:22 -0000	1.3
++++ latex/style/dbk_fonts.sty	4 Jun 2008 22:50:36 -0000
+@@ -1,4 +1,4 @@
+-\usepackage{ifxetex}
++
+ \ifxetex
+ % to have the \text macro
+ \usepackage{amstext}
+Index: latex/style/docbook.sty
+===================================================================
+RCS file: /usr/local/cvsroot/docbook/db2tex/dblatex/latex/style/docbook.sty,v
+retrieving revision 1.23
+diff -u -r1.23 docbook.sty
+--- latex/style/docbook.sty	3 Sep 2007 18:47:53 -0000	1.23
++++ latex/style/docbook.sty	31 May 2008 12:16:35 -0000
+@@ -8,12 +8,6 @@
+ \DeclareOption{hyperlink}{ \def\DBKhyperlink{yes} }
+ \DeclareOption{nohyperlink}{ \def\DBKhyperlink{no} }
+ 
+-\ifx\undefined\chapter
+-  \def\DBKisarticle{1}
+-\else
+-  \def\DBKisarticle{0}
+-\fi
+-
+ % Default values
+ \ExecuteOptions{nohyperlink}
+ 
+@@ -140,7 +134,7 @@
+ %% Inclusion of float package after hyperref to have its definitions!
+ \usepackage{float}
+ 
+-\if1\DBKisarticle
++\@ifundefined{chapter}{
+ 
+ \floatstyle{ruled}
+ \newfloat{example}{htb}{loe}[section]
+@@ -153,8 +147,7 @@
+ % Redefinition of tableofcontent, to have it in separate pages
+ \let\stdtoc=\tableofcontents
+ \def\tableofcontents{ \newpage \stdtoc{} \newpage} 
+-
+-\else
++}{
+ 
+ \floatstyle{ruled}
+ \newfloat{example}{htb}{loe}[chapter]
+@@ -163,8 +156,8 @@
+ \floatstyle{plain}
+ \newfloat{dbequation}{htb}{loe}[chapter]
+ \floatname{dbequation}{{\scshape Equation }}
++}
+ 
+-\fi
+ % Sidebar is a boxed minipage that can contain verbatim
+ \newenvironment{sidebar}[1][0.95\textwidth]{
+   \hspace{0mm}\newline%
+Index: xsl/lang.xsl
+===================================================================
+RCS file: /usr/local/cvsroot/docbook/db2tex/dblatex/xsl/lang.xsl,v
+retrieving revision 1.6
+diff -u -r1.6 lang.xsl
+--- xsl/lang.xsl	18 Apr 2008 23:11:31 -0000	1.6
++++ xsl/lang.xsl	4 Jun 2008 22:55:24 -0000
+@@ -192,7 +192,13 @@
+   </xsl:variable>
+ 
+   <!-- XeTeX preamble to handle fonts -->
+-  <xsl:text>\usepackage{ifxetex}&#10;</xsl:text>
++  <xsl:text>\IfFileExists{ifxetex.sty}{%
++    \usepackage{ifxetex}%
++  }{%
++    \newif\ifxetex
++    \xetexfalse
++  }
++  </xsl:text>
+   <xsl:text>\ifxetex&#10;</xsl:text>
+   <xsl:text>\usepackage{fontspec}&#10;</xsl:text>
+   <xsl:text>\usepackage{xltxtra}&#10;</xsl:text>
