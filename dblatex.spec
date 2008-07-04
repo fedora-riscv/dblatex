@@ -2,7 +2,7 @@
 
 Name:		dblatex
 Version:	0.2.9
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	DocBook to LaTeX/ConTeXt Publishing
 BuildArch:	noarch
 Group:		Applications/Publishing
@@ -23,8 +23,13 @@ BuildRequires:  ImageMagick
 BuildRequires:  tetex-latex
 %else
 BuildRequires:  tex(latex)
+%endif
+%if  0%{?fedora} < 10
 BuildRequires:  texlive-xetex
 Requires:       texlive-xetex
+%else
+BuildRequires:  tex(xetex)
+Requires:       tex(xetex)
 %endif
 
 Requires:	libxslt docbook-dtds passivetex ImageMagick transfig
@@ -107,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /usr/bin/texhash
 
 %changelog
+* Fri Jul  4 2008 Alex Lancaster <alexlan[AT]fedoraproject org> - 0.2.9-2
+- BR: texlive-xetex -> tex(xetex) for F-10 and later
+
 * Thu Jun 12 2008 Alex Lancaster <alexlan[AT]fedoraproject org> - 0.2.9-1
 - Update to latest upstream (0.2.9) (#448953)
 - Remove some redundant Requires and BuildRequires (passivetex pulls
