@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		dblatex
-Version:	0.2.8
-Release:	2%{?dist}
+Version:	0.2.9
+Release:	1%{?dist}
 Summary:	DocBook to LaTeX/ConTeXt Publishing
 BuildArch:	noarch
 Group:		Applications/Publishing
@@ -12,10 +12,22 @@ Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 #Source1:        http://docbook.sourceforge.net/release/xsl/current/COPYING
 Source1:        COPYING-docbook-xsl
 Patch0:		dblatex-0.2.7-external-which.patch
+Patch1:		dblatex-0.2.9-xetex.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	python-devel libxslt tetex ImageMagick tetex-latex python-which
-Requires:	tetex libxslt docbook-dtds python passivetex tetex-latex ImageMagick transfig tetex-fonts
+BuildRequires:  python-devel 
+BuildRequires:  python-which
+BuildRequires:  libxslt 
+BuildRequires:  ImageMagick 
+%if 0%{?fedora} < 9
+BuildRequires:  tetex-latex
+%else
+BuildRequires:  tex(latex)
+BuildRequires:  texlive-xetex
+Requires:       texlive-xetex
+%endif
+
+Requires:	libxslt docbook-dtds passivetex ImageMagick transfig
 
 %if 0%{?fedora} < 8
 Conflicts: tetex-tex4ht
@@ -36,6 +48,7 @@ Authors:
 %prep
 %setup -q
 %patch0 -p1 -b .external-which
+%patch1 -p0 -b .xetex
 rm -rf lib/contrib
 
 %build
@@ -47,12 +60,17 @@ rm -rf $RPM_BUILD_ROOT
 #%{__python} setup.py install --skip-build --root $RPM_BUILD_ROOT
 %{__python} setup.py install --root $RPM_BUILD_ROOT
 # these are already in tetex-latex:
-for file in bibtopic.sty enumitem.sty ragged2e.sty passivetex/; do
+for file in bibtopic.sty enumitem.sty ragged2e.sty passivetex/ xelatex/; do
   rm -rf $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/misc/$file
 done
 
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/texmf/tex/latex/dblatex
 for file in ` find $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/ -name '*.sty' ` ; do 
+  mv $file $RPM_BUILD_ROOT%{_datadir}/texmf/tex/latex/dblatex/`basename $file`;
+done
+
+## also move .xetex files
+for file in ` find $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/ -name '*.xetex' ` ; do 
   mv $file $RPM_BUILD_ROOT%{_datadir}/texmf/tex/latex/dblatex/`basename $file`;
 done
 
@@ -76,6 +94,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/dblatex.1*
 %doc COPYRIGHT docs/manual.pdf COPYING-docbook-xsl README-xsltml
 %{python_sitelib}/dbtexmf/
+%if 0%{?fedora} >= 9
+%{python_sitelib}/dblatex-*.egg-info
+%endif
 %{_bindir}/dblatex
 %{_datadir}/dblatex/
 %{_datadir}/texmf/tex/latex/dblatex/
@@ -86,7 +107,18 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /usr/bin/texhash
 
 %changelog
-* Sun Dec 16 2007 Patrice Dumas <pertusus@free.fr> - 0.2.8-2
+* Thu Jun 12 2008 Alex Lancaster <alexlan[AT]fedoraproject org> - 0.2.9-1
+- Update to latest upstream (0.2.9) (#448953)
+- Remove some redundant Requires and BuildRequires (passivetex pulls
+  in the tetex/tex requires, python dep added automatically)
+- For F-9+ BR on tex(latex) and texlive-xetex, fix the installation
+  scripts to install extra new files.
+- Add patch from dblatex mailing list for better handling of a missing
+  xetex.
+- Conditionally add .egg-info file only if F9+ to allow for unified
+  spec file
+
+* Sun Dec 16 2007 Patrice Dumas <pertusus@free.fr> - 0.2.8-2.1
 - don't install in docbook directory, it is a link to a versioned 
   directory and may break upon docbook update (#425251,#389231)
 
