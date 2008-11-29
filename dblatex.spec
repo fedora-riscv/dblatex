@@ -2,7 +2,7 @@
 
 Name:		dblatex
 Version:	0.2.9
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	DocBook to LaTeX/ConTeXt Publishing
 BuildArch:	noarch
 Group:		Applications/Publishing
@@ -112,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /usr/bin/texhash
 
 %changelog
+* Sat Nov 29 2008 Ignacio Vazquez-Abrams <ivazqueznet+rpm@gmail.com> - 0.2.9-3
+- Rebuild for Python 2.6
+
 * Fri Jul  4 2008 Alex Lancaster <alexlan[AT]fedoraproject org> - 0.2.9-2
 - BR: texlive-xetex -> tex(xetex) for F-10 and later
 
