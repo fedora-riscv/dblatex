@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		dblatex
-Version:	0.2.9
-Release:	1%{?dist}
+Version:	0.2.10
+Release:	2%{?dist}
 Summary:	DocBook to LaTeX/ConTeXt Publishing
 BuildArch:	noarch
 Group:		Applications/Publishing
@@ -12,7 +12,6 @@ Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 #Source1:        http://docbook.sourceforge.net/release/xsl/current/COPYING
 Source1:        COPYING-docbook-xsl
 Patch0:		dblatex-0.2.7-external-which.patch
-Patch1:		dblatex-0.2.9-xetex.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  python-devel 
@@ -23,8 +22,13 @@ BuildRequires:  ImageMagick
 BuildRequires:  tetex-latex
 %else
 BuildRequires:  tex(latex)
+%endif
+%if  0%{?fedora} < 10
 BuildRequires:  texlive-xetex
 Requires:       texlive-xetex
+%else
+BuildRequires:  tex(xetex)
+Requires:       tex(xetex)
 %endif
 
 Requires:	libxslt docbook-dtds passivetex ImageMagick transfig
@@ -48,7 +52,6 @@ Authors:
 %prep
 %setup -q
 %patch0 -p1 -b .external-which
-%patch1 -p0 -b .xetex
 rm -rf lib/contrib
 
 %build
@@ -107,6 +110,21 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /usr/bin/texhash
 
 %changelog
+* Sun May 10 2009 Neal Becker <ndbecker2@gmail.com> - 0.2.10-2
+- remove dblatex-0.2.9-xetex.patch
+
+* Sun May 10 2009 Neal Becker <ndbecker2@gmail.com> - 0.2.10-1
+- Update to 0.2.10
+
+* Tue Feb 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.2.9-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+
+* Sat Nov 29 2008 Ignacio Vazquez-Abrams <ivazqueznet+rpm@gmail.com> - 0.2.9-3
+- Rebuild for Python 2.6
+
+* Fri Jul  4 2008 Alex Lancaster <alexlan[AT]fedoraproject org> - 0.2.9-2
+- BR: texlive-xetex -> tex(xetex) for F-10 and later
+
 * Thu Jun 12 2008 Alex Lancaster <alexlan[AT]fedoraproject org> - 0.2.9-1
 - Update to latest upstream (0.2.9) (#448953)
 - Remove some redundant Requires and BuildRequires (passivetex pulls
