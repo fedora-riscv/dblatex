@@ -2,7 +2,7 @@
 
 Name:		dblatex
 Version:	0.2.10
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	DocBook to LaTeX/ConTeXt Publishing
 BuildArch:	noarch
 Group:		Applications/Publishing
@@ -12,7 +12,6 @@ Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 #Source1:        http://docbook.sourceforge.net/release/xsl/current/COPYING
 Source1:        COPYING-docbook-xsl
 Patch0:		dblatex-0.2.7-external-which.patch
-Patch1:		dblatex-0.2.9-xetex.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  python-devel 
@@ -53,7 +52,6 @@ Authors:
 %prep
 %setup -q
 %patch0 -p1 -b .external-which
-%patch1 -p0 -b .xetex
 rm -rf lib/contrib
 
 %build
@@ -112,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /usr/bin/texhash
 
 %changelog
+* Sun May 10 2009 Neal Becker <ndbecker2@gmail.com> - 0.2.10-2
+- remove dblatex-0.2.9-xetex.patch
+
 * Sun May 10 2009 Neal Becker <ndbecker2@gmail.com> - 0.2.10-1
 - Update to 0.2.10
 
