@@ -2,7 +2,7 @@
 
 Name:		dblatex
 Version:	0.2.10
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	DocBook to LaTeX/ConTeXt Publishing
 BuildArch:	noarch
 Group:		Applications/Publishing
@@ -110,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /usr/bin/texhash
 
 %changelog
+* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.2.10-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
 * Sun May 10 2009 Neal Becker <ndbecker2@gmail.com> - 0.2.10-2
 - remove dblatex-0.2.9-xetex.patch
 
