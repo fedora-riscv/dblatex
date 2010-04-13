@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		dblatex
-Version:	0.2.10
-Release:	3%{?dist}
+Version:	0.3
+Release:	1%{?dist}
 Summary:	DocBook to LaTeX/ConTeXt Publishing
 BuildArch:	noarch
 Group:		Applications/Publishing
@@ -18,24 +18,10 @@ BuildRequires:  python-devel
 BuildRequires:  python-which
 BuildRequires:  libxslt 
 BuildRequires:  ImageMagick 
-%if 0%{?fedora} < 9
-BuildRequires:  tetex-latex
-%else
 BuildRequires:  tex(latex)
-%endif
-%if  0%{?fedora} < 10
-BuildRequires:  texlive-xetex
-Requires:       texlive-xetex
-%else
 BuildRequires:  tex(xetex)
 Requires:       tex(xetex)
-%endif
-
 Requires:	libxslt docbook-dtds passivetex ImageMagick transfig
-
-%if 0%{?fedora} < 8
-Conflicts: tetex-tex4ht
-%endif
 
 %description
 dblatex is a program that transforms your SGML/XMLDocBook
@@ -97,9 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/dblatex.1*
 %doc COPYRIGHT docs/manual.pdf COPYING-docbook-xsl README-xsltml
 %{python_sitelib}/dbtexmf/
-%if 0%{?fedora} >= 9
 %{python_sitelib}/dblatex-*.egg-info
-%endif
 %{_bindir}/dblatex
 %{_datadir}/dblatex/
 %{_datadir}/texmf/tex/latex/dblatex/
@@ -110,6 +94,10 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /usr/bin/texhash
 
 %changelog
+* Mon Apr 12 2010 Alex Lancaster <alexlan[AT]fedoraproject org> - 0.3-1
+- Update to 0.3
+- Cleanup spec: drop some unnecessary conditionals for old releases (< F-11)
+
 * Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.2.10-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
