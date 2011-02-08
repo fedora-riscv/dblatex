@@ -2,7 +2,7 @@
 
 Name:		dblatex
 Version:	0.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	DocBook to LaTeX/ConTeXt Publishing
 BuildArch:	noarch
 Group:		Applications/Publishing
@@ -94,6 +94,9 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /usr/bin/texhash
 
 %changelog
+* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Wed Jul 21 2010 David Malcolm <dmalcolm@redhat.com> - 0.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Features/Python_2.7/MassRebuild
 
