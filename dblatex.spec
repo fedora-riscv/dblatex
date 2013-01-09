@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:		dblatex
-Version:	0.3
-Release:	5%{?dist}
+Version:	0.3.4
+Release:	4%{?dist}
 Summary:	DocBook to LaTeX/ConTeXt Publishing
 BuildArch:	noarch
 Group:		Applications/Publishing
@@ -12,16 +12,52 @@ Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 #Source1:        http://docbook.sourceforge.net/release/xsl/current/COPYING
 Source1:        COPYING-docbook-xsl
 Patch0:		dblatex-0.2.7-external-which.patch
+Patch1:		dblatex-disable-debian.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  python-devel 
 BuildRequires:  python-which
 BuildRequires:  libxslt 
 BuildRequires:  ImageMagick 
-BuildRequires:  tex(latex)
-BuildRequires:  tex(xetex)
-Requires:       tex(xetex)
-Requires:	libxslt docbook-dtds passivetex ImageMagick transfig
+BuildRequires:  texlive-base
+BuildRequires:  texlive-collection-latex
+BuildRequires:  texlive-collection-xetex
+BuildRequires:  texlive-collection-htmlxml
+BuildRequires:  transfig
+BuildRequires:  texlive-epstopdf-bin
+BuildRequires:  texlive-xmltex-bin
+BuildRequires:	texlive-anysize
+BuildRequires:	texlive-appendix
+BuildRequires:	texlive-changebar
+BuildRequires:	texlive-jknapltx
+BuildRequires:	texlive-multirow
+BuildRequires:	texlive-overpic
+BuildRequires:	texlive-pdfpages
+BuildRequires:	texlive-subfigure
+BuildRequires:  texlive-stmaryrd
+Requires:       texlive-base
+Requires:       texlive-collection-latex
+Requires:       texlive-collection-xetex
+Requires:       texlive-collection-htmlxml
+Requires:       texlive-collection-fontsrecommended
+Requires:       texlive-epstopdf-bin
+Requires:	texlive-passivetex 
+Requires:	texlive-xmltex texlive-xmltex-bin
+Requires:	texlive-anysize
+Requires:	texlive-appendix
+Requires:	texlive-bibtopic
+Requires:	texlive-changebar
+Requires:	texlive-ec
+Requires:	texlive-jknapltx
+Requires:	texlive-overpic
+Requires: 	texlive-passivetex
+Requires:	texlive-pdfpages
+Requires:	texlive-subfigure
+Requires:       texlive-stmaryrd
+Requires: 	texlive-xmltex-bin
+Requires:	libxslt docbook-dtds 
+Requires:	transfig
+Requires:	ImageMagick 
 
 %description
 dblatex is a program that transforms your SGML/XMLDocBook
@@ -38,10 +74,11 @@ Authors:
 %prep
 %setup -q
 %patch0 -p1 -b .external-which
+%patch1 -p1 -b .disable-debian
 rm -rf lib/contrib
 
 %build
-%{__python } setup.py build
+%{__python} setup.py build
 
 
 %install
@@ -53,14 +90,14 @@ for file in bibtopic.sty enumitem.sty ragged2e.sty passivetex/ xelatex/; do
   rm -rf $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/misc/$file
 done
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/texmf/tex/latex/dblatex
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/texlive/texmf-dist/tex/latex/dblatex
 for file in ` find $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/ -name '*.sty' ` ; do 
-  mv $file $RPM_BUILD_ROOT%{_datadir}/texmf/tex/latex/dblatex/`basename $file`;
+  mv $file $RPM_BUILD_ROOT%{_datadir}/texlive/texmf-dist/tex/latex/dblatex/`basename $file`;
 done
 
 ## also move .xetex files
 for file in ` find $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/ -name '*.xetex' ` ; do 
-  mv $file $RPM_BUILD_ROOT%{_datadir}/texmf/tex/latex/dblatex/`basename $file`;
+  mv $file $RPM_BUILD_ROOT%{_datadir}/texlive/texmf-dist/tex/latex/dblatex/`basename $file`;
 done
 
 rmdir $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/{misc,contrib/example,style}
@@ -86,7 +123,7 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/dblatex-*.egg-info
 %{_bindir}/dblatex
 %{_datadir}/dblatex/
-%{_datadir}/texmf/tex/latex/dblatex/
+%{_datadir}/texlive/texmf-dist/tex/latex/dblatex/
 %dir %{_sysconfdir}/dblatex
 
 %post -p /usr/bin/texhash
@@ -94,6 +131,10 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /usr/bin/texhash
 
 %changelog
+* Wed Jan 02 2013 Benjamin De Kosnik  <bkoz@redhat.com> - 0.3.4-1
+- Update to 0.3.4.
+- Adjust for texlive rebase.
+
 * Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
