@@ -2,7 +2,7 @@
 
 Name:		dblatex
 Version:	0.3.4
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	DocBook to LaTeX/ConTeXt Publishing
 BuildArch:	noarch
 Group:		Applications/Publishing
@@ -49,6 +49,7 @@ Requires:	texlive-bibtopic
 Requires:	texlive-changebar
 Requires:	texlive-ec
 Requires:	texlive-jknapltx
+Requires:	texlive-multirow
 Requires:	texlive-overpic
 Requires: 	texlive-passivetex
 Requires:	texlive-pdfpages
@@ -131,6 +132,9 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /usr/bin/texhash
 
 %changelog
+* Wed May 29 2013 Michael J Gruber <mjg@fedoraproject.org> - 0.3.4-6
+- Add mising R texlive-multirow.
+
 * Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.4-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
