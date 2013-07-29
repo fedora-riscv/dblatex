@@ -1,24 +1,22 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-Name:		dblatex
-Version:	0.3.4
-Release:	6%{?dist}
-Summary:	DocBook to LaTeX/ConTeXt Publishing
-BuildArch:	noarch
-Group:		Applications/Publishing
-License:	GPLv2+
-URL:		http://dblatex.sourceforge.net/
-Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
-#Source1:        http://docbook.sourceforge.net/release/xsl/current/COPYING
-Source1:        COPYING-docbook-xsl
-Patch0:		dblatex-0.2.7-external-which.patch
-Patch1:		dblatex-disable-debian.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Name:       dblatex
+Version:    0.3.4
+Release:    7%{?dist}
+Summary:    DocBook to LaTeX/ConTeXt Publishing
+BuildArch:  noarch
+License:    GPLv2+ and GPLv2 and LPPL and DMIT
+URL:        http://dblatex.sourceforge.net/
+Source0:    http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+# Source1 is from http://docbook.sourceforge.net/release/xsl/current/COPYING
+Source1:    COPYING-docbook-xsl
+Patch0:     dblatex-0.2.7-external-which.patch
+Patch1:     dblatex-disable-debian.patch
 
-BuildRequires:  python-devel 
+BuildRequires:  python-devel
 BuildRequires:  python-which
-BuildRequires:  libxslt 
-BuildRequires:  ImageMagick 
+BuildRequires:  libxslt
+BuildRequires:  ImageMagick
 BuildRequires:  texlive-base
 BuildRequires:  texlive-collection-latex
 BuildRequires:  texlive-collection-xetex
@@ -26,14 +24,14 @@ BuildRequires:  texlive-collection-htmlxml
 BuildRequires:  transfig
 BuildRequires:  texlive-epstopdf-bin
 BuildRequires:  texlive-xmltex-bin
-BuildRequires:	texlive-anysize
-BuildRequires:	texlive-appendix
-BuildRequires:	texlive-changebar
-BuildRequires:	texlive-jknapltx
-BuildRequires:	texlive-multirow
-BuildRequires:	texlive-overpic
-BuildRequires:	texlive-pdfpages
-BuildRequires:	texlive-subfigure
+BuildRequires:  texlive-anysize
+BuildRequires:  texlive-appendix
+BuildRequires:  texlive-changebar
+BuildRequires:  texlive-jknapltx
+BuildRequires:  texlive-multirow
+BuildRequires:  texlive-overpic
+BuildRequires:  texlive-pdfpages
+BuildRequires:  texlive-subfigure
 BuildRequires:  texlive-stmaryrd
 Requires:       texlive-base
 Requires:       texlive-collection-latex
@@ -41,24 +39,24 @@ Requires:       texlive-collection-xetex
 Requires:       texlive-collection-htmlxml
 Requires:       texlive-collection-fontsrecommended
 Requires:       texlive-epstopdf-bin
-Requires:	texlive-passivetex 
-Requires:	texlive-xmltex texlive-xmltex-bin
-Requires:	texlive-anysize
-Requires:	texlive-appendix
-Requires:	texlive-bibtopic
-Requires:	texlive-changebar
-Requires:	texlive-ec
-Requires:	texlive-jknapltx
-Requires:	texlive-multirow
-Requires:	texlive-overpic
-Requires: 	texlive-passivetex
-Requires:	texlive-pdfpages
-Requires:	texlive-subfigure
+Requires:       texlive-passivetex
+Requires:       texlive-xmltex texlive-xmltex-bin
+Requires:       texlive-anysize
+Requires:       texlive-appendix
+Requires:       texlive-bibtopic
+Requires:       texlive-changebar
+Requires:       texlive-ec
+Requires:       texlive-jknapltx
+Requires:       texlive-multirow
+Requires:       texlive-overpic
+Requires:       texlive-passivetex
+Requires:       texlive-pdfpages
+Requires:       texlive-subfigure
 Requires:       texlive-stmaryrd
-Requires: 	texlive-xmltex-bin
-Requires:	libxslt docbook-dtds 
-Requires:	transfig
-Requires:	ImageMagick 
+Requires:       texlive-xmltex-bin
+Requires:       libxslt docbook-dtds
+Requires:       transfig
+Requires:       ImageMagick
 
 %description
 dblatex is a program that transforms your SGML/XMLDocBook
@@ -83,7 +81,6 @@ rm -rf lib/contrib
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
 #%{__python} setup.py install --skip-build --root $RPM_BUILD_ROOT
 %{__python} setup.py install --root $RPM_BUILD_ROOT
 # these are already in tetex-latex:
@@ -92,12 +89,12 @@ for file in bibtopic.sty enumitem.sty ragged2e.sty passivetex/ xelatex/; do
 done
 
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/texlive/texmf-dist/tex/latex/dblatex
-for file in ` find $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/ -name '*.sty' ` ; do 
+for file in ` find $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/ -name '*.sty' ` ; do
   mv $file $RPM_BUILD_ROOT%{_datadir}/texlive/texmf-dist/tex/latex/dblatex/`basename $file`;
 done
 
 ## also move .xetex files
-for file in ` find $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/ -name '*.xetex' ` ; do 
+for file in ` find $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/ -name '*.xetex' ` ; do
   mv $file $RPM_BUILD_ROOT%{_datadir}/texlive/texmf-dist/tex/latex/dblatex/`basename $file`;
 done
 
@@ -111,13 +108,8 @@ sed -e 's/\r//' xsl/mathml2/README > README-xsltml
 touch -r xsl/mathml2/README README-xsltml
 cp -p %{SOURCE1} COPYING-docbook-xsl
 
- 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 
 %files
-%defattr(-,root,root,-)
 %{_mandir}/man1/dblatex.1*
 %doc COPYRIGHT docs/manual.pdf COPYING-docbook-xsl README-xsltml
 %{python_sitelib}/dbtexmf/
@@ -132,6 +124,11 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /usr/bin/texhash
 
 %changelog
+* Mon Jul 29 2013 Stanislav Ochotnicky <sochotnicky@redhat.com> - 0.3.4-7
+- Add DMIT, GPLv2 and LPPL licenses
+- Fix space and tab mixing
+- Cleanup old spec file parts
+
 * Wed May 29 2013 Michael J Gruber <mjg@fedoraproject.org> - 0.3.4-6
 - Add mising R texlive-multirow.
 
@@ -188,7 +185,7 @@ rm -rf $RPM_BUILD_ROOT
   spec file
 
 * Sun Dec 16 2007 Patrice Dumas <pertusus@free.fr> - 0.2.8-2.1
-- don't install in docbook directory, it is a link to a versioned 
+- don't install in docbook directory, it is a link to a versioned
   directory and may break upon docbook update (#425251,#389231)
 
 * Sun Nov 25 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.8-1
@@ -258,13 +255,10 @@ rm -rf $RPM_BUILD_ROOT
 - Add  BR tetex, ImageMagick
 
 * Thu Sep 20 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-3
-- Add BR libxslt 
+- Add BR libxslt
 
 * Wed Sep 19 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-2
 - Add BR python-devel
 
 * Fri Sep  7 2007 Neal Becker <ndbecker2@gmail.com> - 0.2.7-1
 - Initial
-
-
-
