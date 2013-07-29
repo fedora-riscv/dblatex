@@ -2,10 +2,16 @@
 
 Name:       dblatex
 Version:    0.3.4
-Release:    7%{?dist}
+Release:    8%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
-License:    GPLv2+ and GPLv2 and LPPL and DMIT
+# Most of package is GPLv2+, except:
+# xsl/ directory is DMIT
+# lib/dbtexmf/core/sgmlent.txt is Public Domain
+# latex/misc/enumitem.sty, multirow2.sry and ragged2e.sty are LPPL
+# latex/misc/lastpage.sty is GPLv2 (no +)
+# latex/misc/passivetex is MIT (not included in binary RPM so not listed)
+License:    GPLv2+ and GPLv2 and LPPL and DMIT and Public Domain
 URL:        http://dblatex.sourceforge.net/
 Source0:    http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 # Source1 is from http://docbook.sourceforge.net/release/xsl/current/COPYING
@@ -124,6 +130,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Mon Jul 29 2013 Stanislav Ochotnicky <sochotnicky@redhat.com> - 0.3.4-8
+- Add Public Domain license and licensing comment
+
 * Mon Jul 29 2013 Stanislav Ochotnicky <sochotnicky@redhat.com> - 0.3.4-7
 - Add DMIT, GPLv2 and LPPL licenses
 - Fix space and tab mixing
