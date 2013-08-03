@@ -2,7 +2,7 @@
 
 Name:		dblatex
 Version:	0.3.4
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	DocBook to LaTeX/ConTeXt Publishing
 BuildArch:	noarch
 Group:		Applications/Publishing
@@ -132,6 +132,9 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /usr/bin/texhash
 
 %changelog
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Wed May 29 2013 Michael J Gruber <mjg@fedoraproject.org> - 0.3.4-6
 - Add mising R texlive-multirow.
 
