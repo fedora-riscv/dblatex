@@ -2,7 +2,7 @@
 
 Name:       dblatex
 Version:    0.3.6
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -130,6 +130,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Mon May 18 2015 jchaloup <jchaloup@redhat.com> - 0.3.6-1
 - Update to 0.3.6
   resolves: #1222169
