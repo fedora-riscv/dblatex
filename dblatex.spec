@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:       dblatex
-Version:    0.3.7
+Version:    0.3.8
 Release:    1%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
@@ -130,6 +130,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Mon Aug 01 2016 Michael J Gruber <mjg@fedoraproject.org> - 0.3.8-1
+- bugfix and feature release
+
 * Mon Aug 01 2016 Michael J Gruber <mjg@fedoraproject.org> - 0.3.7-1
 - bugfix release
 
