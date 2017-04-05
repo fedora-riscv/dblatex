@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:       dblatex
-Version:    0.3.9
-Release:    2%{?dist}
+Version:    0.3.10
+Release:    1%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -130,6 +130,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Wed Apr 05 2017 Michael J Gruber <mjg@fedoraproject.org> - 0.3.10-1
+- rebase with upstream
+
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.9-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
