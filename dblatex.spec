@@ -2,7 +2,7 @@
 
 Name:       dblatex
 Version:    0.3.10
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -19,8 +19,8 @@ Source1:    COPYING-docbook-xsl
 Patch0:     dblatex-0.2.7-external-which.patch
 Patch1:     dblatex-disable-debian.patch
 
-BuildRequires:  python-devel
-BuildRequires:  python-which
+BuildRequires:  python2-devel
+BuildRequires:  python2-which
 BuildRequires:  libxslt
 BuildRequires:  ImageMagick
 BuildRequires:  texlive-base
@@ -130,6 +130,10 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Wed Feb 07 2018 Iryna Shcherbina <ishcherb@redhat.com> - 0.3.10-4
+- Update Python 2 dependency declarations to new packaging standards
+  (See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3)
+
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.10-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
