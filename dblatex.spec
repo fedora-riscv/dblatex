@@ -2,7 +2,7 @@
 
 Name:       dblatex
 Version:    0.3.10
-Release:    4%{?dist}
+Release:    5%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -22,29 +22,27 @@ Patch1:     dblatex-disable-debian.patch
 BuildRequires:  python2-devel
 BuildRequires:  python2-which
 BuildRequires:  libxslt
-BuildRequires:  ImageMagick
 BuildRequires:  texlive-base
 BuildRequires:  texlive-collection-latex
 BuildRequires:  texlive-collection-xetex
 BuildRequires:  texlive-collection-htmlxml
-BuildRequires:  transfig
-BuildRequires:  texlive-epstopdf-bin
 BuildRequires:  texlive-xmltex-bin
 BuildRequires:  texlive-anysize
 BuildRequires:  texlive-appendix
 BuildRequires:  texlive-changebar
+BuildRequires:  texlive-fancybox
 BuildRequires:  texlive-jknapltx
 BuildRequires:  texlive-multirow
 BuildRequires:  texlive-overpic
 BuildRequires:  texlive-pdfpages
 BuildRequires:  texlive-subfigure
 BuildRequires:  texlive-stmaryrd
+BuildRequires:  texlive-wasysym
 Requires:       texlive-base
 Requires:       texlive-collection-latex
 Requires:       texlive-collection-xetex
 Requires:       texlive-collection-htmlxml
 Requires:       texlive-collection-fontsrecommended
-Requires:       texlive-epstopdf-bin
 Requires:       texlive-passivetex
 Requires:       texlive-xmltex texlive-xmltex-bin
 Requires:       texlive-anysize
@@ -52,6 +50,7 @@ Requires:       texlive-appendix
 Requires:       texlive-bibtopic
 Requires:       texlive-changebar
 Requires:       texlive-ec
+Requires:       texlive-fancybox
 Requires:       texlive-jknapltx
 Requires:       texlive-multirow
 Requires:       texlive-overpic
@@ -59,10 +58,13 @@ Requires:       texlive-passivetex
 Requires:       texlive-pdfpages
 Requires:       texlive-subfigure
 Requires:       texlive-stmaryrd
+Requires:       texlive-wasysym
 Requires:       texlive-xmltex-bin
 Requires:       libxslt docbook-dtds
-Requires:       transfig
-Requires:       ImageMagick
+Recommends:     ImageMagick
+Recommends:     texlive-epstopdf-bin
+Recommends:     transfig
+Recommends:     inkscape
 
 %description
 dblatex is a program that transforms your SGML/XMLDocBook
@@ -130,6 +132,10 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Wed Apr 11 2018 Nikola Forró <nforro@redhat.com> - 0.3.10-5
+- make non-critical graphic tools weak dependencies
+- recommend inkscape, which can be used to convert SVG images
+
 * Wed Feb 07 2018 Iryna Shcherbina <ishcherb@redhat.com> - 0.3.10-4
 - Update Python 2 dependency declarations to new packaging standards
   (See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3)
