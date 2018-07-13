@@ -1,8 +1,6 @@
-%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-
 Name:       dblatex
 Version:    0.3.10
-Release:    6%{?dist}
+Release:    7%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -85,12 +83,12 @@ Authors:
 rm -rf lib/contrib
 
 %build
-%{__python} setup.py build
+%{__python2} setup.py build
 
 
 %install
-#%{__python} setup.py install --skip-build --root $RPM_BUILD_ROOT
-%{__python} setup.py install --root $RPM_BUILD_ROOT
+#%{__python2} setup.py install --skip-build --root $RPM_BUILD_ROOT
+%{__python2} setup.py install --root $RPM_BUILD_ROOT
 # these are already in tetex-latex:
 for file in bibtopic.sty enumitem.sty ragged2e.sty passivetex/ xelatex/; do
   rm -rf $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/misc/$file
@@ -120,8 +118,8 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %files
 %{_mandir}/man1/dblatex.1*
 %doc COPYRIGHT docs/manual.pdf COPYING-docbook-xsl README-xsltml
-%{python_sitelib}/dbtexmf/
-%{python_sitelib}/dblatex-*.egg-info
+%{python2_sitelib}/dbtexmf/
+%{python2_sitelib}/dblatex-*.egg-info
 %{_bindir}/dblatex
 %{_datadir}/dblatex/
 %{_datadir}/texlive/texmf-dist/tex/latex/dblatex/
@@ -132,6 +130,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Fri Jul 13 2018 Michael J Gruber <mjg@fedoraproject.org> - 0.3.10-7
+- adjust to py2 packaging guidelines (fix FTBFS on rawhide)
+
 * Thu Jul 12 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.10-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
