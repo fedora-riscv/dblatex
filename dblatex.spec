@@ -1,6 +1,6 @@
 Name:       dblatex
 Version:    0.3.10
-Release:    8%{?dist}
+Release:    9%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -132,6 +132,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.10-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Mon Sep 10 2018 Michael J Gruber <mjg@fedoraproject.org> - 0.3.10-8
 - make shebangs unambiguous
 
