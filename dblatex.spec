@@ -1,6 +1,6 @@
 Name:       dblatex
 Version:    0.3.10
-Release:    9%{?dist}
+Release:    10%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -83,6 +83,7 @@ Authors:
 %patch1 -p1 -b .disable-debian
 rm -rf lib/contrib
 pathfix.py -pni "%{__python2} %{py2_shbang_opts}" .
+pathfix.py -pni "%{__python2} %{py2_shbang_opts}" scripts/dblatex
 
 %build
 %{__python2} setup.py build
@@ -132,6 +133,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Mon Feb 11 2019 Neal Becker <ndbecker2@gmail.com> - 0.3.10-10
+- Fix scripts/dblatex hashbang
+
 * Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.10-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
