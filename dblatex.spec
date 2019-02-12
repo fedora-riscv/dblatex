@@ -1,6 +1,6 @@
 Name:       dblatex
 Version:    0.3.10
-Release:    9%{?dist}
+Release:    10%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -91,6 +91,8 @@ pathfix.py -pni "%{__python2} %{py2_shbang_opts}" .
 %install
 #%{__python2} setup.py install --skip-build --root $RPM_BUILD_ROOT
 %{__python2} setup.py install --root $RPM_BUILD_ROOT
+pathfix.py -pni "%{__python2} %{py2_shbang_opts}" $RPM_BUILD_ROOT%{_bindir}/dblatex
+
 # these are already in tetex-latex:
 for file in bibtopic.sty enumitem.sty ragged2e.sty passivetex/ xelatex/; do
   rm -rf $RPM_BUILD_ROOT%{_datadir}/dblatex/latex/misc/$file
@@ -132,6 +134,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Tue Feb 12 2019 Michael J Gruber <mjg@fedoraproject.org> - 0.3.10-10
+- fix FTBFS on F30 (#1674789)
+
 * Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.10-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
