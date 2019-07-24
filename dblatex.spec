@@ -1,6 +1,6 @@
 Name:       dblatex
 Version:    0.3.10
-Release:    10%{?dist}
+Release:    11%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -134,6 +134,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Wed Jul 24 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.10-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Tue Feb 12 2019 Michael J Gruber <mjg@fedoraproject.org> - 0.3.10-10
 - fix FTBFS on F30 (#1674789)
 
