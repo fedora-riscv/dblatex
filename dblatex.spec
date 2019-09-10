@@ -1,6 +1,6 @@
 Name:       dblatex
 Version:    0.3.10
-Release:    11%{?dist}
+Release:    12%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -14,11 +14,10 @@ URL:        http://dblatex.sourceforge.net/
 Source0:    http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 # Source1 is from http://docbook.sourceforge.net/release/xsl/current/COPYING
 Source1:    COPYING-docbook-xsl
-Patch0:     dblatex-0.2.7-external-which.patch
-Patch1:     dblatex-disable-debian.patch
+Patch0:     dblatex-disable-debian.patch
 
+Provides: bundled(python2-which) = 1.1.0
 BuildRequires:  python2-devel
-BuildRequires:  python2-which
 BuildRequires:  libxslt
 BuildRequires:  texlive-base
 BuildRequires:  texlive-collection-latex
@@ -79,9 +78,7 @@ Authors:
 
 %prep
 %setup -q
-%patch0 -p1 -b .external-which
-%patch1 -p1 -b .disable-debian
-rm -rf lib/contrib
+%patch0 -p1 -b .disable-debian
 pathfix.py -pni "%{__python2} %{py2_shbang_opts}" .
 
 %build
@@ -134,6 +131,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Tue Sep 10 2019 Gwyn Ciesla <gwync@protonmail.com> - 0.3.10-12
+- Rebundle python2-which.
+
 * Wed Jul 24 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.10-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
