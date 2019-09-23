@@ -1,6 +1,6 @@
 Name:       dblatex
 Version:    0.3.11
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -14,10 +14,11 @@ URL:        http://dblatex.sourceforge.net/
 Source0:    http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 # Source1 is from http://docbook.sourceforge.net/release/xsl/current/COPYING
 Source1:    COPYING-docbook-xsl
-Patch0:     dblatex-disable-debian.patch
+Patch0:     dblatex-0.3.11-python3.patch
+Patch1:     dblatex-0.3.11-disable-debian.patch
+Patch2:     dblatex-0.3.11-which-shutil.patch
 
-Provides: bundled(python2-which) = 1.1.0
-BuildRequires:  python2-devel
+BuildRequires:  python3-devel
 BuildRequires:  libxslt
 BuildRequires:  texlive-base
 BuildRequires:  texlive-collection-latex
@@ -78,17 +79,20 @@ Authors:
 
 %prep
 %setup -q
-%patch0 -p1 -b .disable-debian
-pathfix.py -pni "%{__python2} %{py2_shbang_opts}" .
+%patch0 -p1 -b .python3
+%patch1 -p1 -b .disable-debian
+%patch2 -p1 -b .which-shutil
+
+rm -rf lib/contrib
+pathfix.py -pni "%{__python3} %{py3_shbang_opts}" .
 
 %build
-%{__python2} setup.py build
+%{__python3} setup.py build
 
 
 %install
-#%{__python2} setup.py install --skip-build --root $RPM_BUILD_ROOT
-%{__python2} setup.py install --root $RPM_BUILD_ROOT
-pathfix.py -pni "%{__python2} %{py2_shbang_opts}" $RPM_BUILD_ROOT%{_bindir}/dblatex
+%{__python3} setup.py install --root $RPM_BUILD_ROOT
+pathfix.py -pni "%{__python3} %{py3_shbang_opts}" $RPM_BUILD_ROOT%{_bindir}/dblatex
 
 # these are already in tetex-latex:
 for file in bibtopic.sty enumitem.sty ragged2e.sty passivetex/ xelatex/; do
@@ -119,8 +123,8 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %files
 %{_mandir}/man1/dblatex.1*
 %doc COPYRIGHT docs/manual.pdf COPYING-docbook-xsl README-xsltml
-%{python2_sitelib}/dbtexmf/
-%{python2_sitelib}/dblatex-*.egg-info
+%{python3_sitelib}/dbtexmf/
+%{python3_sitelib}/dblatex-*.egg-info
 %{_bindir}/dblatex
 %{_datadir}/dblatex/
 %{_datadir}/texlive/texmf-dist/tex/latex/dblatex/
@@ -131,6 +135,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Mon Sep 23 2019 Michael J Gruber <mjg@fedoraproject.org> - 0.3.11-2
+- port to python3 (bz #1737967)
+
 * Sun Sep 22 2019 Michael J Gruber <mjg@fedoraproject.org> - 0.3.11-1
 - bugfix release (bz #1753399)
 
