@@ -1,6 +1,6 @@
 Name:       dblatex
 Version:    0.3.11
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -11,12 +11,11 @@ BuildArch:  noarch
 # latex/misc/passivetex is MIT (not included in binary RPM so not listed)
 License:    GPLv2+ and GPLv2 and LPPL and DMIT and Public Domain
 URL:        http://dblatex.sourceforge.net/
-Source0:    http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+Source0:    http://downloads.sourceforge.net/%{name}/%{name}-%{version}py3.tar.bz2
 # Source1 is from http://docbook.sourceforge.net/release/xsl/current/COPYING
 Source1:    COPYING-docbook-xsl
-Patch0:     dblatex-0.3.11-python3.patch
-Patch1:     dblatex-0.3.11-disable-debian.patch
-Patch2:     dblatex-0.3.11-which-shutil.patch
+Patch0:     dblatex-0.3.11-disable-debian.patch
+Patch1:     dblatex-0.3.11-which-shutil.patch
 
 BuildRequires:  python3-devel
 BuildRequires:  libxslt
@@ -78,10 +77,9 @@ Authors:
 
 
 %prep
-%setup -q
-%patch0 -p1 -b .python3
-%patch1 -p1 -b .disable-debian
-%patch2 -p1 -b .which-shutil
+%setup -q -n %{name}-%{version}py3
+%patch0 -p1 -b .disable-debian
+%patch1 -p1 -b .which-shutil
 
 rm -rf lib/contrib
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" .
@@ -135,6 +133,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Wed Feb 05 2020 Michael J Gruber <mjg@fedoraproject.org> - 0.3.11-4
+- rebase to upstreamed py3 version (bz 1796232)
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.11-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
