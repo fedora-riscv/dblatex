@@ -1,6 +1,6 @@
 Name:       dblatex
 Version:    0.3.11
-Release:    4%{?dist}
+Release:    5%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -133,6 +133,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.11-5
+- Rebuilt for Python 3.9
+
 * Wed Feb 05 2020 Michael J Gruber <mjg@fedoraproject.org> - 0.3.11-4
 - rebase to upstreamed py3 version (bz 1796232)
 
