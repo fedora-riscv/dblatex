@@ -1,6 +1,6 @@
 Name:       dblatex
 Version:    0.3.11
-Release:    5%{?dist}
+Release:    6%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -18,6 +18,7 @@ Patch0:     dblatex-0.3.11-disable-debian.patch
 Patch1:     dblatex-0.3.11-which-shutil.patch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  libxslt
 BuildRequires:  texlive-base
 BuildRequires:  texlive-collection-latex
@@ -133,6 +134,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Tue Jun 23 2020 Michael J Gruber <mjg@fedoraproject.org> - 0.3.11-6
+- BR setuptools explicitly
+
 * Fri May 22 2020 Miro Hrončok <mhroncok@redhat.com> - 0.3.11-5
 - Rebuilt for Python 3.9
 
