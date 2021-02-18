@@ -1,6 +1,6 @@
 Name:       dblatex
 Version:    0.3.12
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -16,6 +16,7 @@ Source0:    http://downloads.sourceforge.net/%{name}/%{name}3-%{version}.tar.bz2
 Source1:    COPYING-docbook-xsl
 Patch0:     dblatex-0.3.11-disable-debian.patch
 Patch1:     dblatex-0.3.11-which-shutil.patch
+Patch2:     dblatex-0.3.11-replace-inkscape-by-rsvg.patch
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
@@ -63,7 +64,7 @@ Requires:       libxslt docbook-dtds
 Recommends:     ImageMagick
 Recommends:     texlive-epstopdf-bin
 Recommends:     transfig
-Recommends:     inkscape
+Recommends:     librsvg2-tools
 
 %description
 dblatex is a program that transforms your SGML/XMLDocBook
@@ -81,6 +82,7 @@ Authors:
 %setup -q -n %{name}3-%{version}
 %patch0 -p1 -b .disable-debian
 %patch1 -p1 -b .which-shutil
+%patch2 -p1 -b .rsvg
 
 rm -rf lib/contrib
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" .
@@ -134,6 +136,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Thu Feb 18 2021 Michael J Gruber <mjg@fedoraproject.org> - 0.3.12-2
+- replace inkscape by rsvg (#bz 1833047)
+
 * Thu Feb 18 2021 Michael J Gruber <mjg@fedoraproject.org> - 0.3.12-1
 - rebase to 0.3.12
 - follow yet another package/tree renaming
