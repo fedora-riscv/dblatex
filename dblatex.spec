@@ -1,6 +1,6 @@
 Name:       dblatex
-Version:    0.3.11
-Release:    8%{?dist}
+Version:    0.3.12
+Release:    1%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -11,7 +11,7 @@ BuildArch:  noarch
 # latex/misc/passivetex is MIT (not included in binary RPM so not listed)
 License:    GPLv2+ and GPLv2 and LPPL and DMIT and Public Domain
 URL:        http://dblatex.sourceforge.net/
-Source0:    http://downloads.sourceforge.net/%{name}/%{name}-%{version}py3.tar.bz2
+Source0:    http://downloads.sourceforge.net/%{name}/%{name}3-%{version}.tar.bz2
 # Source1 is from http://docbook.sourceforge.net/release/xsl/current/COPYING
 Source1:    COPYING-docbook-xsl
 Patch0:     dblatex-0.3.11-disable-debian.patch
@@ -78,7 +78,7 @@ Authors:
 
 
 %prep
-%setup -q -n %{name}-%{version}py3
+%setup -q -n %{name}3-%{version}
 %patch0 -p1 -b .disable-debian
 %patch1 -p1 -b .which-shutil
 
@@ -134,6 +134,10 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Thu Feb 18 2021 Michael J Gruber <mjg@fedoraproject.org> - 0.3.12-1
+- rebase to 0.3.12
+- follow yet another package/tree renaming
+
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.11-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
