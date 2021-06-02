@@ -1,6 +1,6 @@
 Name:       dblatex
 Version:    0.3.12
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -136,6 +136,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Wed Jun 02 2021 Python Maint <python-maint@redhat.com> - 0.3.12-3
+- Rebuilt for Python 3.10
+
 * Thu Feb 18 2021 Michael J Gruber <mjg@fedoraproject.org> - 0.3.12-2
 - replace inkscape by rsvg (#bz 1833047)
 
