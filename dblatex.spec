@@ -1,6 +1,6 @@
 Name:       dblatex
 Version:    0.3.12
-Release:    5%{?dist}
+Release:    6%{?dist}
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -136,6 +136,9 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
+* Mon Jun 13 2022 Python Maint <python-maint@redhat.com> - 0.3.12-6
+- Rebuilt for Python 3.11
+
 * Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 0.3.12-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
