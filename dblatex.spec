@@ -1,6 +1,6 @@
 Name:       dblatex
 Version:    0.3.12
-Release:    %autorelease
+Release:    31%{?dist}.rv64
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -140,4 +140,7 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
-%autochangelog
+* Sat May 23 2026 Liu Yang <yang.liu.sn@gmail.com> - 0.3.12-31.rv64
+- Rebuild for f44: remove individual texlive BRs (use collections only)
+- Packages removed: xmltex-bin anysize appendix changebar fancybox footmisc jknapltx multirow overpic passivetex pdfpages subfigure stmaryrd wasysym
+
