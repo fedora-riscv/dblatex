@@ -140,7 +140,5 @@ cp -p %{SOURCE1} COPYING-docbook-xsl
 %postun -p /usr/bin/texhash
 
 %changelog
-* Sat May 23 2026 Liu Yang <yang.liu.sn@gmail.com> - 0.3.12-31.rv64
-- Rebuild for f44: remove individual texlive BRs (use collections only)
-- Packages removed: xmltex-bin anysize appendix changebar fancybox footmisc jknapltx multirow overpic passivetex pdfpages subfigure stmaryrd wasysym
+%autochangelog
 
