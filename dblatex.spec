@@ -29,20 +29,20 @@ BuildRequires:  libxslt
 BuildRequires:  texlive-base
 BuildRequires:  texlive-collection-latex
 BuildRequires:  texlive-collection-xetex
-BuildRequires:  texlive-xmltex-bin
-BuildRequires:  texlive-anysize
-BuildRequires:  texlive-appendix
-BuildRequires:  texlive-changebar
-BuildRequires:  texlive-fancybox
-BuildRequires:  texlive-footmisc
-BuildRequires:  texlive-jknapltx
-BuildRequires:  texlive-multirow
-BuildRequires:  texlive-overpic
-BuildRequires:  texlive-passivetex
-BuildRequires:  texlive-pdfpages
-BuildRequires:  texlive-subfigure
-BuildRequires:  texlive-stmaryrd
-BuildRequires:  texlive-wasysym
+# Removed (f44 texlive restructuring): BuildRequires:  texlive-xmltex-bin
+# Removed (f44 texlive restructuring): BuildRequires:  texlive-anysize
+# Removed (f44 texlive restructuring): BuildRequires:  texlive-appendix
+# Removed (f44 texlive restructuring): BuildRequires:  texlive-changebar
+# Removed (f44 texlive restructuring): BuildRequires:  texlive-fancybox
+# Removed (f44 texlive restructuring): BuildRequires:  texlive-footmisc
+# Removed (f44 texlive restructuring): BuildRequires:  texlive-jknapltx
+# Removed (f44 texlive restructuring): BuildRequires:  texlive-multirow
+# Removed (f44 texlive restructuring): BuildRequires:  texlive-overpic
+# Removed (f44 texlive restructuring): BuildRequires:  texlive-passivetex
+# Removed (f44 texlive restructuring): BuildRequires:  texlive-pdfpages
+# Removed (f44 texlive restructuring): BuildRequires:  texlive-subfigure
+# Removed (f44 texlive restructuring): BuildRequires:  texlive-stmaryrd
+# Removed (f44 texlive restructuring): BuildRequires:  texlive-wasysym
 Requires:       texlive-base
 Requires:       texlive-collection-latex
 Requires:       texlive-collection-xetex
