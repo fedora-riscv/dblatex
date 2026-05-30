@@ -90,11 +90,11 @@ rm -rf lib/contrib
 %pyproject_buildrequires
 
 %build
-%pyproject_wheel
+%py3_build
 
 
 %install
-%pyproject_install
+%py3_install
 %pyproject_save_files -L dbtexmf
 
 # these are already in tetex-latex:
