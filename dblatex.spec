@@ -1,6 +1,6 @@
 Name:       dblatex
 Version:    0.3.12
-Release:    31%{?dist}.rv64
+Release:    31%{?dist}.rvrebuild1
 Summary:    DocBook to LaTeX/ConTeXt Publishing
 BuildArch:  noarch
 # Most of package is GPLv2+, except:
@@ -27,8 +27,6 @@ Patch5:     dblatex-0.3.12-remove-shebangs-from-non-scripts.patch
 BuildRequires:  python3-devel
 BuildRequires:  libxslt
 BuildRequires:  texlive-base
-BuildRequires:  texlive-collection-latex
-BuildRequires:  texlive-collection-xetex
 # Removed (f44 texlive restructuring): BuildRequires:  texlive-xmltex-bin
 # Removed (f44 texlive restructuring): BuildRequires:  texlive-anysize
 # Removed (f44 texlive restructuring): BuildRequires:  texlive-appendix
@@ -44,9 +42,6 @@ BuildRequires:  texlive-collection-xetex
 # Removed (f44 texlive restructuring): BuildRequires:  texlive-stmaryrd
 # Removed (f44 texlive restructuring): BuildRequires:  texlive-wasysym
 Requires:       texlive-base
-Requires:       texlive-collection-latex
-Requires:       texlive-collection-xetex
-Requires:       texlive-collection-fontsrecommended
 Requires:       texlive-xmltex texlive-xmltex-bin
 Requires:       texlive-anysize
 Requires:       texlive-appendix
