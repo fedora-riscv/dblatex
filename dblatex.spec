@@ -27,6 +27,10 @@ Patch5:     dblatex-0.3.12-remove-shebangs-from-non-scripts.patch
 BuildRequires:  python3-devel
 BuildRequires:  libxslt
 BuildRequires:  texlive-base
+BuildRequires:  tex(latex)
+BuildRequires:  tex(makeindex)
+BuildRequires:  tex(pdflatex)
+BuildRequires:  tex(kpsewhich)
 # Removed (f44 texlive restructuring): BuildRequires:  texlive-xmltex-bin
 # Removed (f44 texlive restructuring): BuildRequires:  texlive-anysize
 # Removed (f44 texlive restructuring): BuildRequires:  texlive-appendix
@@ -90,11 +94,11 @@ rm -rf lib/contrib
 %pyproject_buildrequires
 
 %build
-%py3_build
+%pyproject_wheel
 
 
 %install
-%py3_install
+%pyproject_install
 %pyproject_save_files -L dbtexmf
 
 # these are already in tetex-latex:
